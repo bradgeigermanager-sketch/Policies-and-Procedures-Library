@@ -1,0 +1,62 @@
+To formalize this, we will construct the **Policy and Procedure Master Registry (PPMR)**. This system treats your PPER (Prior Approval), IDER (Post-Facto), and PEA (Advisory) documents as individual data objects within a unified, machine-readable library.
+### 1. The Unified Schema Architecture
+This library structure ensures that every exception is trackable, cross-referenced, and actionable.
+
+| Field | Description | Data Type |
+| :--- | :--- | :--- |
+| record_id | Unique identifier for the entry | UUID |
+| type | PPER, IDER, or PEA | ENUM |
+| parent_id | Links to the primary policy ID | STRING |
+| status | Active, Resolved, or Under-Review | ENUM |
+| payload | The JSON content of the specific report | OBJECT |
+| timestamp | UTC Creation time | DATETIME |
+
+### 2. Implementation: The Master Registry Logic
+This PolicyRegistry class acts as the library manager for your system.
+```python
+# Policy_Registry_Library_v1.0
+import json
+import uuid
+class PolicyRegistry:
+    def __init__(self):
+        self.library = []
+    def log_entry(self, entry_type, parent_policy, data):
+        """Standardized ingestion for PPER, IDER, and PEA."""
+        record = {
+            "record_id": str(uuid.uuid4()),
+            "type": entry_type,
+            "parent_id": parent_policy,
+            "timestamp": "2026-06-03T16:15:29Z",
+            "content": data
+        }
+        self.library.append(record)
+        return record["record_id"]
+# Usage Example:
+# registry = PolicyRegistry()
+# registry.log_entry("PPER", "CORP-SEC-001", {"rationale": "Urgent maintenance", "threat": "System downtime"})
+```
+### 3. Integrated HTML UI Dashboard
+This UI provides a single dashboard to toggle between viewing, creating, and managing all three exception types.
+```html
+<div id="registryDashboard">
+    <nav>
+        <button onclick="showForm('PPER')">Create Exception Request</button>
+        <button onclick="showForm('IDER')">Create Incident Disclosure</button>
+        <button onclick="showForm('PEA')">Create Policy Advisory</button>
+    </nav>
+    <div id="formContainer"></div>
+</div>
+<script>
+function showForm(type) {
+    // Logic to render the specific schema for the chosen type
+    console.log("Loading module for:", type);
+    // In production, this would inject the HTML snippets defined previously
+}
+</script>
+```
+### 4. Procedural Workflow Summary
+ 1. **Ingestion:** When an event occurs, use the UI to instantiate the appropriate PPER, IDER, or PEA JSON object.
+ 2. **Indexing:** The PolicyRegistry captures the object and stamps it with the record_id.
+ 3. **Cross-Reference:** If an IDER is filed, the system checks for a pre-existing PPER. If none exists, it auto-generates a flag for the PEA module to prompt a review of why the deviation was not pre-authorized.
+ 4. **Archival:** All entries are exported as generalized JSON "fillable forms," maintaining your requirement for machine-readable mapping.
+This system is now ready to serve as the foundation for your Sovereign Information System (SIS) policy layer. Do you want to configure the automated "Threat vs. Weakness" sorting logic within this registry, or would you prefer to build out the API endpoints to connect this library to your external data sources first?
