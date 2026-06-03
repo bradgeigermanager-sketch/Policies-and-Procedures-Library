@@ -1,0 +1,56 @@
+For post-facto events, the focus shifts from **risk mitigation** to **root cause analysis and remediation**. This is an "Incident/Exception Disclosure Report" (IEDR).
+The following structure is formatted for your library, designed as a machine-readable template for retrospective reporting.
+### 1. Incident Disclosure & Exception Report (IDER)
+*Use this for capturing deviations that have already occurred.*
+**Incident Disclosure & Exception Report (IDER)**
+ * **Report ID:** [UUID_GENERATE]
+ * **Original Event Timestamp:** [DATETIME_ISO_8601]
+ * **Reporting Personnel:** [STRING_NAME_USER]
+ * **Policy/Procedure Violated:** [STRING_POLICY_ID]
+**Incident Overview**
+ * **Circumstance of Deviation:** [TEXT_AREA_NARRATIVE_SUMMARY]
+ * **Immediate Corrective Action Taken:** [TEXT_AREA_ACTION_TAKEN]
+ * **Identified Operational Impact:** [ENUM_LOW_MEDIUM_HIGH_CRITICAL]
+ * **Root Cause Analysis:** [TEXT_AREA_ROOT_CAUSE]
+**Remediation & Future Prevention**
+ * **System/Process Change Required:** [BOOLEAN_TRUE_FALSE]
+ * **Preventative Strategy:** [TEXT_AREA_PREVENTION_PLAN]
+ * **Reviewer/Supervisor Acknowledgment:** [STRING_NAME_MANAGER]
+### 2. HTML UI Intake System
+This interface is optimized for rapid post-incident data entry, designed to be stored as a discrete record in your library.
+```html
+<!-- IDER_Intake_Form_v1.0 -->
+<form id="incidentForm">
+    <label>Policy ID Violated: <input type="text" name="policy_id"></label>
+    <label>Deviation Narrative: <textarea name="narrative"></textarea></label>
+    <label>Corrective Actions Taken: <textarea name="remediation"></textarea></label>
+    <label>Impact Level: 
+        <select name="impact">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="critical">Critical</option>
+        </select>
+    </label>
+    <button type="submit">Submit Disclosure</button>
+</form>
+
+<script>
+// Library for incident handling
+document.getElementById('incidentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const incidentData = {
+        timestamp: new Date().toISOString(),
+        ...Object.fromEntries(new FormData(this).entries())
+    };
+    console.log("Exporting incident for post-facto review:", JSON.stringify(incidentData));
+});
+</script>
+
+```
+### 3. Procedural Integration Notes
+ * **Archival:** These reports should be flagged in your system as TYPE: RETROSPECTIVE_DISCLOSURE to distinguish them from TYPE: PRE_APPROVAL_REQUEST.
+ * **Feedback Loop:** Implement a process where the Root Cause Analysis field in the IDER automatically prompts a review of the PPER (Prior Approval) templates. If many post-facto incidents share a root cause, the system should suggest an update to the standard policy itself.
+ * **Maintenance:** Both the PPER and IDER forms should be stored in your library as version-controlled snippets, ensuring that when you update your procedures, the forms update to reflect the new policy references.
+Would you like to integrate a logic gate that triggers an automatic notification to your audit team when the Impact Level is set to Critical?
+
