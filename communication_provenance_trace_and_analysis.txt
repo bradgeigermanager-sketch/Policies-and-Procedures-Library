@@ -1,0 +1,55 @@
+**Universal Logic of Provenance and Attribution for Communications Origin Analysis**.
+
+Here is a generalized, protocol-agnostic procedure for tracing communication and analyzing a source.
+
+### 1. Procedure: Communication Provenance Trace
+
+*Focus: Establishing the "Where" and "How" of the signal origin.*
+
+1. **Isolate the Event:** Define the communication packet, transaction, or signal that initiates the investigation.
+2. **Boundary Identification:** Identify the logical and physical gateways the communication traversed.
+3. **Path Traversal:** * Query the hop-by-hop transit logs (the "breadcrump" trail) for the communication.
+* Normalize timestamps across all transit points to ensure event sequence integrity.
+
+
+4. **Terminal Attribution:** Map the terminal node of the communication path to a unique device identity (an identifier unique to that entity, independent of the protocol used).
+5. **Validation:** Perform a correlation check—does the device attribute match the communication footprint? If the device is masked or the path is broken, trigger a "Source Obfuscation" exception.
+
+### 2. Procedure: Device Forensic Analysis
+
+*Focus: Establishing the "Who" and "What" on the originating device.*
+
+1. **State Preservation:** Before interaction, capture the state of volatile data. This is the "snapshot" of the device's immediate activity.
+2. **Identity Verification:** Map the device identity to its physical ownership or logical registration record.
+3. **Action Attribution:**
+* Query the activity logs to isolate the specific process or service that generated the communication.
+* Distinguish between "system-authored" traffic (OS-level) and "user-authored" traffic (application-level).
+
+
+4. **Artifact Extraction:** Retrieve historical data (logs, metadata, configuration files) associated with the originating process.
+5. **Behavioral Assessment:** Compare the behavior (the communication) against the known baseline for that device/process.
+* *If behavior deviates from the baseline:* Flag as an anomaly/unauthorized event.
+* *If behavior aligns with the baseline:* Flag as authorized/intended activity.
+
+
+
+---
+
+### Generalized Library Taxonomy
+
+You can adapt this to any system—from 18th-century maritime courier logs to modern network packets—by filling in the blanks.
+
+| Phase | Core Logic | The "Blank" to fill |
+| --- | --- | --- |
+| **Ingress** | The "Signal" | `[Communication_Packet]` |
+| **Transit** | The "Logbook" | `[Network_or_Messenger_Log]` |
+| **Origin** | The "Terminal" | `[Device_or_Ship_Identity]` |
+| **Audit** | The "Baseline" | `[Authorized_Behavior_Profile]` |
+
+### Summary of the "Agnostic" Approach
+
+This logic works because it relies on three immutable pillars of investigation, regardless of whether you are in the 1700s or 2026:
+
+1. **Provenance:** The signal must be traceable to a point of origin.
+2. **Persistence:** The device must have a record of its activity (logs, journals, or memory).
+3. **Correlation:** The activity on the device must logically explain the signal sent.
